@@ -1615,6 +1615,22 @@ void _glfwPlatformGetWindowFrameSize(_GLFWwindow* window,
         XFree(extents);
 }
 
+void _glfwPlatformMaximizeWindow(_GLFWwindow* window) // NEW
+{
+    if (window->x11.overrideRedirect)
+    {
+        // Override-redirect windows cannot be iconified or restored, as those
+        // tasks are performed by the window manager
+        _glfwInputError(GLFW_API_UNAVAILABLE,
+                        "X11: Iconification of full screen windows requires "
+                        "a WM that supports EWMH");
+        return;
+    }
+
+    XIconifyWindow(_glfw.x11.display, window->x11.handle, _glfw.x11.screen);
+    XFlush(_glfw.x11.display);
+}
+
 void _glfwPlatformIconifyWindow(_GLFWwindow* window)
 {
     if (window->x11.overrideRedirect)

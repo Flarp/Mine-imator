@@ -1,11 +1,10 @@
 #include <iostream>
-#include "dlib/dlib.h"
+#include <stdlib.h>
 #include <GLFW/glfw3.h>
-
-using namespace std;
+#include "dlib/dlib.h"
 
 static void error_callback(int error, const char* description) {
-	cout << "Error " << error << ": " << description;
+	std::cout << "Error " << error << ": " << description << std::endl;
 }
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
