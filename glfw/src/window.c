@@ -546,6 +546,13 @@ GLFWAPI void glfwGetWindowFrameSize(GLFWwindow* handle,
     _glfwPlatformGetWindowFrameSize(window, left, top, right, bottom);
 }
 
+GLFWAPI void glfwMaximizeWindow(GLFWwindow* handle) // NEW
+{
+	_GLFWwindow* window = (_GLFWwindow*) handle;
+	_GLFW_REQUIRE_INIT();
+	_glfwPlatformMaximizeWindow(window);
+}
+
 GLFWAPI void glfwIconifyWindow(GLFWwindow* handle)
 {
     _GLFWwindow* window = (_GLFWwindow*) handle;

@@ -1937,6 +1937,9 @@ GLFWAPI void glfwGetFramebufferSize(GLFWwindow* window, int* width, int* height)
  */
 GLFWAPI void glfwGetWindowFrameSize(GLFWwindow* window, int* left, int* top, int* right, int* bottom);
 
+/* NEW! Maximizes the specified window. */
+GLFWAPI void glfwMaximizeWindow(GLFWwindow* window);
+
 /*! @brief Iconifies the specified window.
  *
  *  This function iconifies (minimizes) the specified window if it was

@@ -943,6 +943,11 @@ void _glfwPlatformGetWindowFrameSize(_GLFWwindow* window,
         *bottom = rect.bottom - height;
 }
 
+void _glfwPlatformMaximizeWindow(_GLFWwindow* window) // NEW
+{
+	ShowWindow(window->win32.handle, SW_MAXIMIZE);
+}
+
 void _glfwPlatformIconifyWindow(_GLFWwindow* window)
 {
     ShowWindow(window->win32.handle, SW_MINIMIZE);
