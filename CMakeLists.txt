@@ -5,7 +5,10 @@ set(PROJECTNAME Mine-imator)
 project(${PROJECTNAME})
 
 # Add files
-file(GLOB SRCS *.cpp *.h)
+file(GLOB SRCS
+	*.cpp *.h
+	project/*.cpp project/*.h
+)
 add_executable(${PROJECTNAME} ${SRCS})
 
 # Add GLFW
