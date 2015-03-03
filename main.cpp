@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include "dlib/dlib.h"
 
+#include "project/project.h"
+
 static void error_callback(int error, const char* description) {
 	std::cout << "Error " << error << ": " << description << std::endl;
 }
