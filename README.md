@@ -1,9 +1,9 @@
-# [Mine-imator](http://www.stuffbydavid.com/mineimator)
+# Mine-imator
 
 
 ## Information ##
 
-  Full C++ source of Mine-imator, the popular 3D animation studio for Minecraft movie makers.
+  Full C++ source of [Mine-imator](http://www.stuffbydavid.com/mineimator), the popular 3D animation studio for Minecraft movie makers.
   It uses [CMake](http://www.cmake.org) to compile for Windows, Mac OS X and Ubuntu.
 
 
