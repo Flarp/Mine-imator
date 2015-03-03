@@ -12,6 +12,7 @@
   GLFW for creating windows, OpenGL contexts and handling input.
     http://www.glfw.org
     
+  dLib, just a bunch of functions I might reuse in future projects.
     
 ## Credits ##
 
