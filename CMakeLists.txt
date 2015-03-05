@@ -1,17 +1,16 @@
 cmake_minimum_required(VERSION 3.1)
 
-# Set project
-set(PROJECTNAME Mine-imator)
-project(${PROJECTNAME})
+# Set projectx
+project(Mine-imator)
 
 # Add files
-file(GLOB SRCS
-	*.cpp *.h
-	project/*.cpp project/*.h
+file(GLOB_RECURSE SRCS
+	${CMAKE_SOURCE_DIR}/src/*.cpp
+	${CMAKE_SOURCE_DIR}/src/*.h
 )
-add_executable(${PROJECTNAME} ${SRCS})
+add_executable(Mine-imator ${SRCS})
 
 # Add GLFW
-add_subdirectory(glfw)
-include_directories(glfw/include)
-target_link_libraries(${PROJECTNAME} glfw ${GLFW_LIBRARIES})
+add_subdirectory(dep/glfw)
+include_directories(dep/glfw/include)
+target_link_libraries(Mine-imator glfw ${GLFW_LIBRARIES})

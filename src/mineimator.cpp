@@ -1,10 +1,8 @@
-#include <iostream>
-#include <stdlib.h>
-#include <GLFW/glfw3.h>
-#include "dlib/dlib.h"
+#include "mineimator.h"
 
-#include "project/project.h"
-
+void someFunc() {
+	return;
+}
 static void error_callback(int error, const char* description) {
 	std::cout << "Error " << error << ": " << description << std::endl;
 }

@@ -1,6 +1,0 @@
-/*
-
-    dLib
-	A library with useful stuff.
-
-*/

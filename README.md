@@ -16,7 +16,6 @@
 ## Credits ##
 
   - Created by [David Norgren](http://www.stuffbydavid.com)
-    
   - Button icons by [Voxelizer](http://www.mineimatorforums.com/index.php?/user/20285-voxelizer/)
   - Based on the game [Minecraft](http://www.minecraft.net) by [Mojang Specifications](http://www.mojang.com)
     
