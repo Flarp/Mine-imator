@@ -1,7 +1,5 @@
 #include "mineimator.h"
 
-double colR, colG, colB;
-
 int main() {
 	GLFWwindow* window;
 	glfwSetErrorCallback(errorCallback);
@@ -22,9 +20,6 @@ int main() {
 
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
-	colR = 1;
-	colG = 1;
-	colB = 1;
 
 
 	while (!glfwWindowShouldClose(window)) {
@@ -39,20 +34,13 @@ int main() {
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+		glOrtho(0, width, height, 0, 0, 1);
 		glMatrixMode(GL_MODELVIEW);
 
 		glLoadIdentity();
-		glRotatef((float)glfwGetTime() * 10.f, 0.f, 0.f, 1.f);
 
-		glBegin(GL_TRIANGLES);
-		glColor3f(colR, colG, colB);
-		glVertex3f(-0.6f, -0.4f, 0.f);
-		glColor3f(colR, colG, 1.f - colB);
-		glVertex3f(0.6f, -0.4f, 0.f);
-		glColor3f(1.f - colR, 1.f - colG, colB);
-		glVertex3f(0.f, 0.6f, 0.f);
-		glEnd();
+		drawBox(100, 100, 200, 200, true, colorMake(33, 152, 173), 1);
+		drawBox(300, 50, 100, 200, true, colorMake(66, 34, 114), 1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -74,11 +62,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 }
 
 void mouseCallback(GLFWwindow* window, int button, int action, int mods) {
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-		colR = rand() / (double)RAND_MAX;
-		colG = rand() / (double)RAND_MAX;
-		colB = rand() / (double)RAND_MAX;
-	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		std::cout << "Click!" << std::endl;
 }
 
 void windowMaximize(GLFWwindow* window) {

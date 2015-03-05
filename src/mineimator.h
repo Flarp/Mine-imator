@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
 
+#include "draw.h"
+#include "color.h"
 #include "project/project.h"
 
 // GLFW
