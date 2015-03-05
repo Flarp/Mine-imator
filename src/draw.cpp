@@ -4,10 +4,12 @@ void drawBox(int x, int y, int width, int height, bool fill, int color, double a
 	glLoadIdentity();
 	glTranslated(x, y, 0);
 
-	glColor4d(colorGetRed(color) / 255.0,
-			  colorGetGreen(color) / 255.0,
-			  colorGetBlue(color) / 255.0,
-			  alpha);
+	glColor4d(
+		colorGetRed(color) / 255.0,
+		colorGetGreen(color) / 255.0,
+		colorGetBlue(color) / 255.0,
+		alpha
+	);
 
 	if (fill)
 		glBegin(GL_QUADS);

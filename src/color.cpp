@@ -1,9 +1,11 @@
 #include "mineimator.h"
 
 int colorMake(int r, int g, int b) {
-	return ((r << 24) +
-			(g << 16) +
-			(b << 8));
+	return (
+		(r << 24) +
+		(g << 16) +
+		(b << 8)
+	);
 }
 
 int colorGetRed(int color) {
