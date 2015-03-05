@@ -1,4 +1,4 @@
-#include "mineimator.h"
+#include "color.h"
 
 int colorMake(int r, int g, int b) {
 	return (
