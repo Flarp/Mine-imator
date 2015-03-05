@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 
-# Set projectx
+# Set project
 project(Mine-imator)
 
 # Add files

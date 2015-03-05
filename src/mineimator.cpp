@@ -1,27 +1,14 @@
 #include "mineimator.h"
 
-void someFunc() {
-	return;
-}
-static void error_callback(int error, const char* description) {
-	std::cout << "Error " << error << ": " << description << std::endl;
-}
-
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
-}
-
 int main() {
 	GLFWwindow* window;
-
-	glfwSetErrorCallback(error_callback);
-
+	glfwSetErrorCallback(errorCallback);
+	
 	if (!glfwInit())
 		exit(EXIT_FAILURE);
 
 	window = glfwCreateWindow(640, 480, "Mine-imator", NULL, NULL);
-	glfwMaximizeWindow(window);
+	windowMaximize(window);
 
 	if (!window) {
 		glfwTerminate();
@@ -31,7 +18,7 @@ int main() {
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, keyCallback);
 
 	while (!glfwWindowShouldClose(window)) {
 		float ratio;
@@ -68,4 +55,23 @@ int main() {
 
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
+}
+
+void errorCallback(int error, const char* description) {
+	std::cout << "Error " << error << ": " << description << std::endl;
+}
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+void windowMaximize(GLFWwindow* window) {
+#ifdef _WIN32
+	glfwMaximizeWindow(window);
+#else
+	const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	glfwSetWindowPos(window, 25, 25);
+	glfwSetWindowSize(window, mode->width - 50, mode->height - 100);
+#endif
 }
