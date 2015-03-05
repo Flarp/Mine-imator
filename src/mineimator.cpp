@@ -23,14 +23,15 @@ int main() {
 
 
 	while (!glfwWindowShouldClose(window)) {
-		float ratio;
 		int width, height;
 
-		glfwGetFramebufferSize(window, &width, &height);
-		ratio = width / (float)height;
+		glfwGetWindowSize(window, &width, &height);
 
 		glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
@@ -39,8 +40,9 @@ int main() {
 
 		glLoadIdentity();
 
-		drawBox(100, 100, 200, 200, true, colorMake(33, 152, 173), 1);
-		drawBox(300, 50, 100, 200, true, colorMake(66, 34, 114), 1);
+		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
+		drawBox(400, 50, 100, 200, true, colorMake(66, 34, 114), 1);
+		drawGradient(0, 0, width, height, colorMake(255, 255, 0), 0, 0, 1, 1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
