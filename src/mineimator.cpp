@@ -43,6 +43,7 @@ int main() {
 		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
 		drawBox(400, 50, 100, 200, true, colorMake(66, 34, 114), 1);
 		drawGradient(0, 0, width, height, colorMake(255, 255, 0), 0, 0, 1, 1);
+		drawLine(0, 0, 100, 100, colorMake(80, 80, 80), 1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

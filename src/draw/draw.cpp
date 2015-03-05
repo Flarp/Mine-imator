@@ -41,3 +41,19 @@ void drawGradient(int x, int y, int width, int height, int color, double alphaTo
 
 	glEnd();
 }
+
+void drawLine(int x1, int y1, int x2, int y2, int color, double alpha) {
+	glColor4d(
+		colorGetRed(color) / 255.0,
+		colorGetGreen(color) / 255.0,
+		colorGetBlue(color) / 255.0,
+		alpha
+	);
+
+	glBegin(GL_LINES);
+
+	glVertex2d(x1, y1);
+	glVertex2d(x2, y2);
+
+	glEnd();
+}
