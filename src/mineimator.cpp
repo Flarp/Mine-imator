@@ -1,4 +1,4 @@
-#include "mineimator.h"
+﻿#include "mineimator.h"
 
 int main() {
 	GLFWwindow* window;
@@ -33,8 +33,10 @@ int main() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// Load, create texture and generate mipmaps
 	int width, height;
-	unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	unsigned char* image = SOIL_load_image("image.png", &width, &height, 0, SOIL_LOAD_RGBA);
+
+	std::cout << width << "x" << height << std::endl; 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	//glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
@@ -57,6 +59,23 @@ int main() {
 		glOrtho(0, width, height, 0, 0, 1);
 
 		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		glEnable(GL_TEXTURE_2D);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBegin(GL_QUADS);
+		glColor3d(1, 1, 1);
+		glTexCoord2d(0, 0);
+		glVertex2d(50, 50);
+		glTexCoord2d(1, 0);
+		glVertex2d(width - 50, 50);
+		glTexCoord2d(1, 1);
+		glVertex2d(width - 50, height - 50);
+		glTexCoord2d(0, 1);
+		glVertex2d(50, height - 50);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
 		glLoadIdentity();
 
 		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
