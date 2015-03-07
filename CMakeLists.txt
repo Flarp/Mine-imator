@@ -13,4 +13,15 @@ add_executable(Mine-imator ${SRCS})
 # Add GLFW
 add_subdirectory(dep/glfw)
 include_directories(dep/glfw/include)
-target_link_libraries(Mine-imator glfw ${GLFW_LIBRARIES})
+
+# Add SOIL
+include_directories(dep/soil)
+add_library(soil STATIC
+	dep/soil/image_helper.c
+	dep/soil/stb_image_aug.c
+	dep/soil/image_DXT.c
+	dep/soil/SOIL.c
+)
+  
+# Finally, link the libraries
+target_link_libraries(Mine-imator soil glfw ${GLFW_LIBRARIES})

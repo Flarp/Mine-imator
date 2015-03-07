@@ -10,7 +10,7 @@
 ## Libraries used ##
 
   - [GLFW](http://www.glfw.org) for creating windows, OpenGL contexts and handling input.
-  - dLib, just a bunch of functions I might reuse in future projects.
+  - [SOIL](http://www.lonesock.net/soil.html) for loading .png and .jpg images.
     
 	
 ## Credits ##

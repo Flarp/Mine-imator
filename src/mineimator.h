@@ -1,7 +1,11 @@
 #pragma once
+
 #include <iostream>
 #include <stdlib.h>
+
 #include <GLFW/glfw3.h>
+//#include <glew.h>
+#include <SOIL.h>
 
 #include "draw/draw.h"
 #include "draw/color.h"

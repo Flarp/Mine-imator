@@ -22,6 +22,25 @@ int main() {
 	glfwSetMouseButtonCallback(window, mouseCallback);
 
 
+	GLuint texture1;
+	glGenTextures(1, &texture1);
+	glBindTexture(GL_TEXTURE_2D, texture1); // All upcoming GL_TEXTURE_2D operations now have effect on our texture object
+	// Set our texture parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// Set texture filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Load, create texture and generate mipmaps
+	int width, height;
+	unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	//glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image);
+	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+
+
+
 	while (!glfwWindowShouldClose(window)) {
 		int width, height;
 
@@ -36,13 +55,13 @@ int main() {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 0, 1);
-		glMatrixMode(GL_MODELVIEW);
 
+		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
 		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
 		drawBox(400, 50, 100, 200, true, colorMake(66, 34, 114), 1);
-		drawGradient(0, 0, width, height, colorMake(255, 255, 0), 0, 0, 1, 1);
+		drawGradient(0, height / 2, width, height / 2, colorMake(255, 255, 0), 0, 0, 1, 1);
 		drawLine(0, 0, 100, 100, colorMake(80, 80, 80), 1);
 
 		glfwSwapBuffers(window);
