@@ -1,27 +1,42 @@
 cmake_minimum_required(VERSION 3.1)
 
 # Set project
-project(Mine-imator)
+set(PROJECTNAME Mine-imator)
+project(${PROJECTNAME})
 
 # Add files
-file(GLOB_RECURSE SRCS
-	${CMAKE_SOURCE_DIR}/src/*.cpp
-	${CMAKE_SOURCE_DIR}/src/*.h
-)
-add_executable(Mine-imator ${SRCS})
+file(GLOB_RECURSE SRCS "${CMAKE_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE HDRS "${CMAKE_SOURCE_DIR}/src/*.h")
+add_executable(${PROJECTNAME} ${HDRS} ${SRCS})
 
 # Add GLFW
-add_subdirectory(dep/glfw)
-include_directories(dep/glfw/include)
+add_subdirectory("dep/glfw")
+include_directories("dep/glfw/include")
+set(LIBS glfw ${GLFW_LIBRARIES})
 
 # Add SOIL
-include_directories(dep/soil)
-add_library(soil STATIC
-	dep/soil/image_helper.c
-	dep/soil/stb_image_aug.c
-	dep/soil/image_DXT.c
-	dep/soil/SOIL.c
-)
-  
+include_directories("dep/soil")
+file(GLOB SOIL_SRCS "${CMAKE_SOURCE_DIR}/dep/soil/*.c")
+add_library(soil STATIC ${SOIL_SRCS})
+set(LIBS ${LIBS} soil)
+
+# Add zlib
+find_package(ZLIB REQUIRED)
+include_directories(${ZLIB_INCLUDE_DIR})
+set(LIBS ${LIBS} ${ZLIB_LIBRARIES})
+
+# Add minizip
+include_directories("dep/minizip")
+file(GLOB MINIZIP_SRCS "${CMAKE_SOURCE_DIR}/dep/minizip/*.c")
+add_library(minizip STATIC ${MINIZIP_SRCS})
+set(LIBS ${LIBS} minizip)
+
+# Add tinyfd
+include_directories("dep/tinyfd")
+file(GLOB TINYFD_SRCS "${CMAKE_SOURCE_DIR}/dep/tinyfd/*.c")
+add_library(tinyfd STATIC ${TINYFD_SRCS})
+set(LIBS ${LIBS} tinyfd)
+
 # Finally, link the libraries
-target_link_libraries(Mine-imator soil glfw ${GLFW_LIBRARIES})
+message("LIBS = ${LIBS}")
+target_link_libraries(${PROJECTNAME} ${LIBS})

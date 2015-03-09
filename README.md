@@ -11,6 +11,7 @@
 
   - [GLFW](http://www.glfw.org) for creating windows, OpenGL contexts and handling input.
   - [SOIL](http://www.lonesock.net/soil.html) for loading .png and .jpg images.
+  - [ZLIB](http://www.zlib.net/) for compressing/decompressing data.
     
 	
 ## Credits ##

@@ -1,6 +1,19 @@
 ﻿#include "mineimator.h"
-
 int main() {
+	zip_fileinfo zfi;
+	zipFile zf = zipOpen("myarch.zip", APPEND_STATUS_CREATE);
+	int ret = zipOpenNewFileInZip(zf,
+								  "myfile.txt",
+								  &zfi,
+								  NULL, 0,
+								  NULL, 0,
+								  "my comment for this interior file",
+								  Z_DEFLATED,
+								  Z_NO_COMPRESSION
+								  );
+	zipCloseFileInZip(zf);
+	zipClose(zf, "my comment for exterior file");
+
 	GLFWwindow* window;
 	glfwSetErrorCallback(errorCallback);
 	
@@ -21,28 +34,9 @@ int main() {
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
 
-
-	GLuint texture1;
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1); // All upcoming GL_TEXTURE_2D operations now have effect on our texture object
-	// Set our texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// Set texture filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Load, create texture and generate mipmaps
-	int width, height;
-	unsigned char* image = SOIL_load_image("image.png", &width, &height, 0, SOIL_LOAD_RGBA);
-
-	std::cout << width << "x" << height << std::endl; 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-	//glGenerateMipmap(GL_TEXTURE_2D);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
-
-
-
+	Image myImage(tinyfd_openFileDialog("Choose image", "", 0,NULL, 0));
+	std::cout << myImage.width << "x" << myImage.height << std::endl;
+	
 	while (!glfwWindowShouldClose(window)) {
 		int width, height;
 
@@ -63,7 +57,7 @@ int main() {
 
 		glEnable(GL_TEXTURE_2D);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBindTexture(GL_TEXTURE_2D, myImage.texture);
 		glBegin(GL_QUADS);
 		glColor3d(1, 1, 1);
 		glTexCoord2d(0, 0);
@@ -80,7 +74,7 @@ int main() {
 
 		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
 		drawBox(400, 50, 100, 200, true, colorMake(66, 34, 114), 1);
-		drawGradient(0, height / 2, width, height / 2, colorMake(255, 255, 0), 0, 0, 1, 1);
+		drawGradient(0, 0, width, height, colorMake(255, 255, 0), 0, 0, 1, 1);
 		drawLine(0, 0, 100, 100, colorMake(80, 80, 80), 1);
 
 		glfwSwapBuffers(window);
