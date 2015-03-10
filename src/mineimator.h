@@ -17,6 +17,8 @@
 #include "file/package.h"
 #include "project/project.h"
 
+using namespace std;
+
 // GLFW
 void errorCallback(int error, const char* description);
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

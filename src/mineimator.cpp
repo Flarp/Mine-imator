@@ -33,9 +33,13 @@ int main() {
 
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
+	int count = 0;
+	const char *filters[] = { "*.png", "*.jpg" };
+	const char *fn = tinyfd_openFileDialog("Choose imagåe", "", 2, filters, 0);
 
-	Image myImage(tinyfd_openFileDialog("Choose image", "", 0,NULL, 0));
-	std::cout << myImage.width << "x" << myImage.height << std::endl;
+	glfwSetClipboardString(window, fn);
+	Image myImage(fn);
+	cout << myImage.width << "x" << myImage.height << endl;
 	
 	while (!glfwWindowShouldClose(window)) {
 		int width, height;

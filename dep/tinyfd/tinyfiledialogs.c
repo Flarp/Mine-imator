@@ -63,6 +63,7 @@ misrepresented as being the original software.
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <wchar.h>
 
 #include "tinyfiledialogs.h"
 /* #define TINYFD_WIN_CONSOLE_ONLY //*/
