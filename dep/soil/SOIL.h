@@ -152,7 +152,7 @@ enum
 unsigned int
 	SOIL_load_OGL_texture
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int force_channels,
 		unsigned int reuse_texture_ID,
 		unsigned int flags
@@ -367,7 +367,7 @@ int
 unsigned char*
 	SOIL_load_image
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int *width, int *height, int *channels,
 		int force_channels
 	);

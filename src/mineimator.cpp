@@ -1,4 +1,13 @@
 ﻿#include "mineimator.h"
+
+// Convert a wide Unicode string to an UTF8 string
+string utf8_encode(wchar_t* wstr) {
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, wcslen(wstr), NULL, 0, NULL, NULL);
+	string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, wstr, wcslen(wstr), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+}
+
 int main() {
 	zip_fileinfo zfi;
 	zipFile zf = zipOpen("myarch.zip", APPEND_STATUS_CREATE);
@@ -33,12 +42,8 @@ int main() {
 
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
-	int count = 0;
-	const char *filters[] = { "*.png", "*.jpg" };
-	const char *fn = tinyfd_openFileDialog("Choose imagåe", "", 2, filters, 0);
 
-	glfwSetClipboardString(window, fn);
-	Image myImage(fn);
+	Image myImage(filedialogOpen(L"My Title", L"C:\\", L""));
 	cout << myImage.width << "x" << myImage.height << endl;
 	
 	while (!glfwWindowShouldClose(window)) {

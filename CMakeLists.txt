@@ -31,12 +31,6 @@ file(GLOB MINIZIP_SRCS "${CMAKE_SOURCE_DIR}/dep/minizip/*.c")
 add_library(minizip STATIC ${MINIZIP_SRCS})
 set(LIBS ${LIBS} minizip)
 
-# Add tinyfd
-include_directories("dep/tinyfd")
-file(GLOB TINYFD_SRCS "${CMAKE_SOURCE_DIR}/dep/tinyfd/*.c")
-add_library(tinyfd STATIC ${TINYFD_SRCS})
-set(LIBS ${LIBS} tinyfd)
-
 # Finally, link the libraries
 message("LIBS = ${LIBS}")
 target_link_libraries(${PROJECTNAME} ${LIBS})

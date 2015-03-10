@@ -190,7 +190,7 @@ extern int      stbi_write_tga       (char const *filename,     int x, int y, in
 
 // load image by filename, open file, or memory buffer
 #ifndef STBI_NO_STDIO
-extern stbi_uc *stbi_load            (char const *filename,     int *x, int *y, int *comp, int req_comp);
+extern stbi_uc *stbi_load            (wchar_t const *filename,     int *x, int *y, int *comp, int req_comp);
 extern stbi_uc *stbi_load_from_file  (FILE *f,                  int *x, int *y, int *comp, int req_comp);
 extern int      stbi_info_from_file  (FILE *f,                  int *x, int *y, int *comp);
 #endif

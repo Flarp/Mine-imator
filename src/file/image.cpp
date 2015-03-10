@@ -1,8 +1,9 @@
-#include "image.h"
+﻿#include "image.h"
 
-Image::Image(const char *filename) {
-	unsigned char* image = SOIL_load_image(filename, &width, &height, 0, SOIL_LOAD_RGBA);
-	cout << "Loading image from " << filename << endl;
+Image::Image(wstring filename) {
+	unsigned char* image = SOIL_load_image(&filename[0], &width, &height, 0, SOIL_LOAD_RGBA);
+	wcout << "Loading image from " << filename << endl;
+
 	// Generate texture names
 	glGenTextures(1, &texture);
 

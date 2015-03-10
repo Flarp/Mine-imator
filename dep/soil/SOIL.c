@@ -1424,7 +1424,7 @@ int
 unsigned char*
 	SOIL_load_image
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int *width, int *height, int *channels,
 		int force_channels
 	)

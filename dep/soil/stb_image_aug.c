@@ -174,7 +174,7 @@ static stbi_uc *hdr_to_ldr(float   *data, int x, int y, int comp);
 #ifndef STBI_NO_STDIO
 unsigned char *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)
 {
-   FILE *f = fopen(filename, "rb");
+   FILE *f = _wfopen(filename, L"rb");
    unsigned char *result;
    if (!f) return epuc("can't fopen", "Unable to open file");
    result = stbi_load_from_file(f,x,y,comp,req_comp);

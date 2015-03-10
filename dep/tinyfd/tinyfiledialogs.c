@@ -556,7 +556,7 @@ static char const * openFileDialogWinGui (
 			p ++ ;
 		}
 	}
-
+	static wchar_t buf[MAX_MULTIPLE*MAX_PATH_OR_CMD];
 	ofn.lStructSize     = sizeof ( OPENFILENAME ) ;
 	ofn.hwndOwner       = 0 ;
 	ofn.hInstance       = 0 ;
@@ -564,7 +564,7 @@ static char const * openFileDialogWinGui (
 	ofn.lpstrCustomFilter = NULL ;
 	ofn.nMaxCustFilter  = 0 ;
 	ofn.nFilterIndex    = 0 ;
-	ofn.lpstrFile		= aoBuff ;
+	ofn.lpstrFile = buf;
 	ofn.nMaxFile        = MAX_PATH_OR_CMD ;
 	ofn.lpstrFileTitle  = NULL ;
 	ofn.nMaxFileTitle   = _MAX_FNAME + _MAX_EXT ;
@@ -583,16 +583,16 @@ static char const * openFileDialogWinGui (
 		ofn.Flags |= OFN_ALLOWMULTISELECT;
 	}
 
-	if ( GetOpenFileName ( & ofn ) == 0 )
+	if ( GetOpenFileNameW ( & ofn ) == 0 )
 	{
 		return NULL ;
 	}
 	else 
 	{
-		lBuffLen = strlen(aoBuff) ;
-		lPointers[0] = aoBuff + lBuffLen + 1 ;
+		lBuffLen = strlen(buf);
+		lPointers[0] = buf + lBuffLen + 1;
 		if ( !aAllowMultipleSelects || (lPointers[0][0] == '\0')  )
-			return aoBuff ;
+			return buf;
         
 		i = 0 ;
 		do
@@ -603,7 +603,7 @@ static char const * openFileDialogWinGui (
 		}
 		while ( lPointers[i][0] != '\0' );
 		i--;
-		p = aoBuff + MAX_MULTIPLE*MAX_PATH_OR_CMD - 1 ;
+		p = buf + MAX_MULTIPLE*MAX_PATH_OR_CMD - 1;
 		* p = '\0';
 		for ( j = i ; j >=0 ; j-- )
 		{
@@ -612,7 +612,7 @@ static char const * openFileDialogWinGui (
 			p--;
 			*p = '\\';
 			p -= lBuffLen ;
-			memmove(p, aoBuff, lBuffLen);
+			memmove(p, buf, lBuffLen);
 			p--;
 			*p = '|';
 		}
