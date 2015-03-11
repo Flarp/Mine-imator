@@ -2,6 +2,7 @@
 
 #pragma once
 #define MAX_FILENAME       1024
+#define MAX_COMMAND        256
 #define MAX_MULTIPLE       32
 
 #ifdef _WIN32
@@ -11,8 +12,9 @@
 #endif
 
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <wchar.h>
+#include <stdio.h>
 
 // Shows a file dialog for opening a file, starting at the given location ("" for last visited).
 // Use filters to select specific formats only.

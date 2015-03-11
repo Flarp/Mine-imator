@@ -1,5 +1,25 @@
 #include "filedialog.h"
 
+#ifndef _WIN32
+bool detectEnvironment(std::string env) {
+	char buf[MAX_COMMAND];
+	std::string cmd = "which " + env;
+	bool found;
+	FILE *f;
+
+	f = popen(&cmd[0], "r");
+	found = (fgets(buf, sizeof(buf), f) != NULL && !strchr(buf, ':'));
+	pclose(f);
+	return found;
+}
+
+std::string getEnvironment() {
+	if (detectEnvironment("kdialog"))
+		return "kdialog";
+	return "";
+}
+#endif
+
 std::wstring dialogOpenFile(std::wstring title, std::wstring location, std::wstring filters, bool multiSelect) {
 	wchar_t selectedFile[MAX_MULTIPLE * MAX_FILENAME];
 
@@ -35,6 +55,7 @@ std::wstring dialogOpenFile(std::wstring title, std::wstring location, std::wstr
 	if (!GetOpenFileNameW(&ofn))
 		return std::wstring(L""); // Cancel
 #else // Mac, Linux
+	std::cout << "Environment: " << getEnvironment() << std::endl;
 #endif
 
 	return std::wstring(selectedFile);
