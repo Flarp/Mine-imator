@@ -31,12 +31,14 @@
 #endif
 
 #include "SOIL.h"
+#include "wfile.h"
 #include "stb_image_aug.h"
 #include "image_helper.h"
 #include "image_DXT.h"
 
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 /*	error reporting	*/
 char *result_string_pointer = "SOIL initialized";
@@ -81,7 +83,7 @@ int query_DXT_capability( void );
 typedef void (APIENTRY * P_SOIL_GLCOMPRESSEDTEXIMAGE2DPROC) (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid * data);
 P_SOIL_GLCOMPRESSEDTEXIMAGE2DPROC soilGlCompressedTexImage2D = NULL;
 unsigned int SOIL_direct_load_DDS(
-		const char *filename,
+		const wchar_t *filename,
 		unsigned int reuse_texture_ID,
 		int flags,
 		int loading_as_cubemap );
@@ -108,7 +110,7 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_texture
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int force_channels,
 		unsigned int reuse_texture_ID,
 		unsigned int flags
@@ -160,7 +162,7 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_HDR_texture
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int fake_HDR_format,
 		int rescale_to_max,
 		unsigned int reuse_texture_ID,
@@ -270,12 +272,12 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_cubemap
 	(
-		const char *x_pos_file,
-		const char *x_neg_file,
-		const char *y_pos_file,
-		const char *y_neg_file,
-		const char *z_pos_file,
-		const char *z_neg_file,
+		const wchar_t *x_pos_file,
+		const wchar_t *x_neg_file,
+		const wchar_t *y_pos_file,
+		const wchar_t *y_neg_file,
+		const wchar_t *z_pos_file,
+		const wchar_t *z_neg_file,
 		int force_channels,
 		unsigned int reuse_texture_ID,
 		unsigned int flags
@@ -658,7 +660,7 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_single_cubemap
 	(
-		const char *filename,
+		const wchar_t *filename,
 		const char face_order[6],
 		int force_channels,
 		unsigned int reuse_texture_ID,
@@ -1367,7 +1369,7 @@ unsigned int
 int
 	SOIL_save_screenshot
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int image_type,
 		int x, int y,
 		int width, int height
@@ -1467,7 +1469,7 @@ unsigned char*
 int
 	SOIL_save_image
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int image_type,
 		int width, int height, int channels,
 		const unsigned char *const data
@@ -1823,7 +1825,7 @@ quick_exit:
 }
 
 unsigned int SOIL_direct_load_DDS(
-		const char *filename,
+		const wchar_t *filename,
 		unsigned int reuse_texture_ID,
 		int flags,
 		int loading_as_cubemap )
@@ -1838,7 +1840,7 @@ unsigned int SOIL_direct_load_DDS(
 		result_string_pointer = "NULL filename";
 		return 0;
 	}
-	f = fopen( filename, "rb" );
+	f = wfopen( filename, "rb" );
 	if( NULL == f )
 	{
 		/*	the file doesn't seem to exist (or be open-able)	*/

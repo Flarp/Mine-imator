@@ -64,6 +64,7 @@
 */
 
 #include "stb_image_aug.h"
+#include "wfile.h"
 
 #ifndef STBI_NO_HDR
 #include <math.h>  // ldexp
@@ -77,6 +78,7 @@
 #include <memory.h>
 #include <assert.h>
 #include <stdarg.h>
+#include <wchar.h>
 
 #ifndef _MSC_VER
   #ifdef __cplusplus
@@ -172,9 +174,9 @@ static stbi_uc *hdr_to_ldr(float   *data, int x, int y, int comp);
 #endif
 
 #ifndef STBI_NO_STDIO
-unsigned char *stbi_load(char const *filename, int *x, int *y, int *comp, int req_comp)
+unsigned char *stbi_load(wchar_t const *filename, int *x, int *y, int *comp, int req_comp)
 {
-   FILE *f = _wfopen(filename, L"rb");
+   FILE *f = wfopen(filename, "rb");
    unsigned char *result;
    if (!f) return epuc("can't fopen", "Unable to open file");
    result = stbi_load_from_file(f,x,y,comp,req_comp);
@@ -246,9 +248,9 @@ unsigned char *stbi_load_from_memory(stbi_uc const *buffer, int len, int *x, int
 #ifndef STBI_NO_HDR
 
 #ifndef STBI_NO_STDIO
-float *stbi_loadf(char const *filename, int *x, int *y, int *comp, int req_comp)
+float *stbi_loadf(wchar_t const *filename, int *x, int *y, int *comp, int req_comp)
 {
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    float *result;
    if (!f) return epf("can't fopen", "Unable to open file");
    result = stbi_loadf_from_file(f,x,y,comp,req_comp);
@@ -298,9 +300,9 @@ int stbi_is_hdr_from_memory(stbi_uc const *buffer, int len)
 }
 
 #ifndef STBI_NO_STDIO
-extern int      stbi_is_hdr          (char const *filename)
+extern int      stbi_is_hdr          (wchar_t const *filename)
 {
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    int result=0;
    if (f) {
       result = stbi_is_hdr_from_file(f);
@@ -322,7 +324,7 @@ extern int      stbi_is_hdr_from_file(FILE *f)
 
 // @TODO: get image dimensions & components without fully decoding
 #ifndef STBI_NO_STDIO
-extern int      stbi_info            (char const *filename,           int *x, int *y, int *comp);
+extern int      stbi_info            (wchar_t const *filename,           int *x, int *y, int *comp);
 extern int      stbi_info_from_file  (FILE *f,                  int *x, int *y, int *comp);
 #endif
 extern int      stbi_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp);
@@ -1551,10 +1553,10 @@ unsigned char *stbi_jpeg_load_from_file(FILE *f, int *x, int *y, int *comp, int 
    return load_jpeg_image(&j, x,y,comp,req_comp);
 }
 
-unsigned char *stbi_jpeg_load(char const *filename, int *x, int *y, int *comp, int req_comp)
+unsigned char *stbi_jpeg_load(wchar_t const *filename, int *x, int *y, int *comp, int req_comp)
 {
    unsigned char *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_jpeg_load_from_file(f,x,y,comp,req_comp);
    fclose(f);
@@ -1591,7 +1593,7 @@ int stbi_jpeg_test_memory(stbi_uc const *buffer, int len)
 
 // @TODO:
 #ifndef STBI_NO_STDIO
-extern int      stbi_jpeg_info            (char const *filename,           int *x, int *y, int *comp);
+extern int      stbi_jpeg_info            (wchar_t const *filename,           int *x, int *y, int *comp);
 extern int      stbi_jpeg_info_from_file  (FILE *f,                  int *x, int *y, int *comp);
 #endif
 extern int      stbi_jpeg_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp);
@@ -2388,10 +2390,10 @@ unsigned char *stbi_png_load_from_file(FILE *f, int *x, int *y, int *comp, int r
    return do_png(&p, x,y,comp,req_comp);
 }
 
-unsigned char *stbi_png_load(char const *filename, int *x, int *y, int *comp, int req_comp)
+unsigned char *stbi_png_load(wchar_t const *filename, int *x, int *y, int *comp, int req_comp)
 {
    unsigned char *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_png_load_from_file(f,x,y,comp,req_comp);
    fclose(f);
@@ -2428,7 +2430,7 @@ int stbi_png_test_memory(stbi_uc const *buffer, int len)
 
 // TODO: load header from png
 #ifndef STBI_NO_STDIO
-extern int      stbi_png_info             (char const *filename,           int *x, int *y, int *comp);
+extern int      stbi_png_info             (wchar_t const *filename,           int *x, int *y, int *comp);
 extern int      stbi_png_info_from_file   (FILE *f,                  int *x, int *y, int *comp);
 #endif
 extern int      stbi_png_info_from_memory (stbi_uc const *buffer, int len, int *x, int *y, int *comp);
@@ -2703,10 +2705,10 @@ static stbi_uc *bmp_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 }
 
 #ifndef STBI_NO_STDIO
-stbi_uc *stbi_bmp_load             (char const *filename,           int *x, int *y, int *comp, int req_comp)
+stbi_uc *stbi_bmp_load             (wchar_t const *filename,           int *x, int *y, int *comp, int req_comp)
 {
    stbi_uc *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_bmp_load_from_file(f, x,y,comp,req_comp);
    fclose(f);
@@ -2989,10 +2991,10 @@ static stbi_uc *tga_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 }
 
 #ifndef STBI_NO_STDIO
-stbi_uc *stbi_tga_load             (char const *filename,           int *x, int *y, int *comp, int req_comp)
+stbi_uc *stbi_tga_load             (wchar_t const *filename,           int *x, int *y, int *comp, int req_comp)
 {
    stbi_uc *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_tga_load_from_file(f, x,y,comp,req_comp);
    fclose(f);
@@ -3203,10 +3205,10 @@ static stbi_uc *psd_load(stbi *s, int *x, int *y, int *comp, int req_comp)
 }
 
 #ifndef STBI_NO_STDIO
-stbi_uc *stbi_psd_load(char const *filename, int *x, int *y, int *comp, int req_comp)
+stbi_uc *stbi_psd_load(wchar_t const *filename, int *x, int *y, int *comp, int req_comp)
 {
    stbi_uc *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_psd_load_from_file(f, x,y,comp,req_comp);
    fclose(f);
@@ -3543,9 +3545,9 @@ stbi_uc *stbi_hdr_load_rgbe_file(FILE *f, int *x, int *y, int *comp, int req_com
    return hdr_load_rgbe(&s,x,y,comp,req_comp);
 }
 
-stbi_uc *stbi_hdr_load_rgbe        (char const *filename,           int *x, int *y, int *comp, int req_comp)
+stbi_uc *stbi_hdr_load_rgbe        (wchar_t const *filename,           int *x, int *y, int *comp, int req_comp)
 {
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    unsigned char *result;
    if (!f) return epuc("can't fopen", "Unable to open file");
    result = stbi_hdr_load_rgbe_file(f,x,y,comp,req_comp);
@@ -3639,9 +3641,9 @@ static void write_pixels(FILE *f, int rgb_dir, int vdir, int x, int y, int comp,
    }
 }
 
-static int outfile(char const *filename, int rgb_dir, int vdir, int x, int y, int comp, void *data, int alpha, int pad, char *fmt, ...)
+static int outfile(wchar_t const *filename, int rgb_dir, int vdir, int x, int y, int comp, void *data, int alpha, int pad, char *fmt, ...)
 {
-   FILE *f = fopen(filename, "wb");
+   FILE *f = wfopen(filename, "wb");
    if (f) {
       va_list v;
       va_start(v, fmt);
@@ -3653,7 +3655,7 @@ static int outfile(char const *filename, int rgb_dir, int vdir, int x, int y, in
    return f != NULL;
 }
 
-int stbi_write_bmp(char const *filename, int x, int y, int comp, void *data)
+int stbi_write_bmp(wchar_t const *filename, int x, int y, int comp, void *data)
 {
    int pad = (-x*3) & 3;
    return outfile(filename,-1,-1,x,y,comp,data,0,pad,
@@ -3662,7 +3664,7 @@ int stbi_write_bmp(char const *filename, int x, int y, int comp, void *data)
             40, x,y, 1,24, 0,0,0,0,0,0);             // bitmap header
 }
 
-int stbi_write_tga(char const *filename, int x, int y, int comp, void *data)
+int stbi_write_tga(wchar_t const *filename, int x, int y, int comp, void *data)
 {
    int has_alpha = !(comp & 1);
    return outfile(filename, -1,-1, x, y, comp, data, has_alpha, 0,

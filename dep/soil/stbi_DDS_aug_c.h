@@ -492,10 +492,10 @@ stbi_uc *stbi_dds_load_from_file   (FILE *f,                  int *x, int *y, in
    return dds_load(&s,x,y,comp,req_comp);
 }
 
-stbi_uc *stbi_dds_load             (char *filename,           int *x, int *y, int *comp, int req_comp)
+stbi_uc *stbi_dds_load             (wchar_t *filename,           int *x, int *y, int *comp, int req_comp)
 {
    stbi_uc *data;
-   FILE *f = fopen(filename, "rb");
+   FILE *f = wfopen(filename, "rb");
    if (!f) return NULL;
    data = stbi_dds_load_from_file(f,x,y,comp,req_comp);
    fclose(f);

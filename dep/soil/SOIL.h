@@ -44,6 +44,8 @@
 extern "C" {
 #endif
 
+#include <wchar.h>
+
 /**
 	The format of images that may be loaded (force_channels).
 	SOIL_LOAD_AUTO leaves the image in whatever format it was found.
@@ -174,12 +176,12 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_cubemap
 	(
-		const char *x_pos_file,
-		const char *x_neg_file,
-		const char *y_pos_file,
-		const char *y_neg_file,
-		const char *z_pos_file,
-		const char *z_neg_file,
+		const wchar_t *x_pos_file,
+		const wchar_t *x_neg_file,
+		const wchar_t *y_pos_file,
+		const wchar_t *y_neg_file,
+		const wchar_t *z_pos_file,
+		const wchar_t *z_neg_file,
 		int force_channels,
 		unsigned int reuse_texture_ID,
 		unsigned int flags
@@ -197,7 +199,7 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_single_cubemap
 	(
-		const char *filename,
+		const wchar_t *filename,
 		const char face_order[6],
 		int force_channels,
 		unsigned int reuse_texture_ID,
@@ -215,7 +217,7 @@ unsigned int
 unsigned int
 	SOIL_load_OGL_HDR_texture
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int fake_HDR_format,
 		int rescale_to_max,
 		unsigned int reuse_texture_ID,
@@ -349,7 +351,7 @@ unsigned int
 int
 	SOIL_save_screenshot
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int image_type,
 		int x, int y,
 		int width, int height
@@ -397,7 +399,7 @@ unsigned char*
 int
 	SOIL_save_image
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int image_type,
 		int width, int height, int channels,
 		const unsigned char *const data

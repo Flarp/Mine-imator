@@ -6,9 +6,10 @@
 
 	public domain
 */
-
 #ifndef HEADER_IMAGE_DXT
 #define HEADER_IMAGE_DXT
+
+#include <wchar.h>
 
 /**
 	Converts an image from an array of unsigned chars (RGB or RGBA) to
@@ -18,7 +19,7 @@
 int
 save_image_as_DDS
 (
-    const char *filename,
+    const wchar_t *filename,
     int width, int height, int channels,
     const unsigned char *const data
 );

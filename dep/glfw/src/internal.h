@@ -554,6 +554,12 @@ void _glfwPlatformGetFramebufferSize(_GLFWwindow* window, int* width, int* heigh
  */
 void _glfwPlatformGetWindowFrameSize(_GLFWwindow* window, int* left, int* top, int* right, int* bottom);
 
+
+/*! @copydoc glfwMaximizeWindow
+ *  @ingroup platform
+ */
+void _glfwPlatformMaximizeWindow(_GLFWwindow* window);
+
 /*! @copydoc glfwIconifyWindow
  *  @ingroup platform
  */

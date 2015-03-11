@@ -9,14 +9,13 @@
 #include <GLFW/glfw3.h>
 //#include <glew.h>
 #include <SOIL.h>
+#include "filedialog.h"
 #include "zlib.h"
 #include "zip.h"
 
 #include "draw/draw.h"
 #include "draw/color.h"
-#include "file/image.h"
-#include "file/package.h"
-#include "file/filedialog.h"
+#include "draw/image.h"
 #include "project/project.h"
 
 using namespace std;

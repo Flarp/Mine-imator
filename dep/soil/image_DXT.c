@@ -8,6 +8,7 @@
 */
 
 #include "image_DXT.h"
+#include "wfile.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,7 +43,7 @@ void compress_DDS_alpha_block(
 int
 	save_image_as_DDS
 	(
-		const char *filename,
+		const wchar_t *filename,
 		int width, int height, int channels,
 		const unsigned char *const data
 	)
@@ -89,7 +90,7 @@ int
 	}
 	header.sCaps.dwCaps1 = DDSCAPS_TEXTURE;
 	/*	write it out	*/
-	fout = fopen( filename, "wb");
+	fout = wfopen( filename, "wb");
 	fwrite( &header, sizeof( DDS_header ), 1, fout );
 	fwrite( DDS_data, 1, DDS_size, fout );
 	fclose( fout );

@@ -14,6 +14,12 @@ add_subdirectory("dep/glfw")
 include_directories("dep/glfw/include")
 set(LIBS glfw ${GLFW_LIBRARIES})
 
+# Add filedialog
+include_directories("dep/filedialog")
+file(GLOB FILEDIALOG_SRCS "${CMAKE_SOURCE_DIR}/dep/filedialog/*.cpp")
+add_library(filedialog STATIC ${FILEDIALOG_SRCS})
+set(LIBS ${LIBS} filedialog)
+
 # Add SOIL
 include_directories("dep/soil")
 file(GLOB SOIL_SRCS "${CMAKE_SOURCE_DIR}/dep/soil/*.c")
@@ -22,6 +28,7 @@ set(LIBS ${LIBS} soil)
 
 # Add zlib
 find_package(ZLIB REQUIRED)
+message("ZLIB_FOUND = ${ZLIB_FOUND}")
 include_directories(${ZLIB_INCLUDE_DIR})
 set(LIBS ${LIBS} ${ZLIB_LIBRARIES})
 
@@ -29,6 +36,7 @@ set(LIBS ${LIBS} ${ZLIB_LIBRARIES})
 include_directories("dep/minizip")
 file(GLOB MINIZIP_SRCS "${CMAKE_SOURCE_DIR}/dep/minizip/*.c")
 add_library(minizip STATIC ${MINIZIP_SRCS})
+target_link_libraries(minizip ${ZLIB_LIBRARIES})
 set(LIBS ${LIBS} minizip)
 
 # Finally, link the libraries

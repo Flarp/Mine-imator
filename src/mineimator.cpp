@@ -1,13 +1,5 @@
 ﻿#include "mineimator.h"
 
-// Convert a wide Unicode string to an UTF8 string
-string utf8_encode(wchar_t* wstr) {
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, wcslen(wstr), NULL, 0, NULL, NULL);
-	string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, wstr, wcslen(wstr), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
-}
-
 int main() {
 	zip_fileinfo zfi;
 	zipFile zf = zipOpen("myarch.zip", APPEND_STATUS_CREATE);
@@ -43,8 +35,10 @@ int main() {
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
 
-	Image myImage(filedialogOpen(L"My Title", L"C:\\", L""));
-	cout << myImage.width << "x" << myImage.height << endl;
+	wstring fn = dialogOpenFile(L"My Title", L"", L"PNG images|*.png|JPG images|*.jpg|", true);
+	Image myImage(fn);
+	wcout << fn << endl;
+	wcout << myImage.width << "x" << myImage.height << endl;
 	
 	while (!glfwWindowShouldClose(window)) {
 		int width, height;
@@ -81,10 +75,7 @@ int main() {
 		glDisable(GL_TEXTURE_2D);
 		glLoadIdentity();
 
-		drawBox(100, 100, 200, 200, true, colorMake(255, 152, 173), 1);
-		drawBox(400, 50, 100, 200, true, colorMake(66, 34, 114), 1);
 		drawGradient(0, 0, width, height, colorMake(255, 255, 0), 0, 0, 1, 1);
-		drawLine(0, 0, 100, 100, colorMake(80, 80, 80), 1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -97,7 +88,7 @@ int main() {
 }
 
 void errorCallback(int error, const char* description) {
-	std::cout << "Error " << error << ": " << description << std::endl;
+	cout << "Error " << error << ": " << description << endl;
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
