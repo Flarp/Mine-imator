@@ -35,10 +35,20 @@ int main() {
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseCallback);
 
-	wstring fn = dialogOpenFile(L"My Title", L"", L"PNG images|*.png|JPG images|*.jpg|", true);
-	Image myImage(fn);
-	wcout << fn << endl;
-	wcout << myImage.width << "x" << myImage.height << endl;
+	wstring_list formats;
+	formats.push_back(L"PNG files (*.png)");
+	formats.push_back(L"*.png");
+	formats.push_back(L"JPG files (*.jpg)");
+	formats.push_back(L"*.jpg");
+
+	wstring_list fn = dialogOpenFile(L"My Title", L"", formats, false);
+
+	for (int i = 0; i < fn.size(); i++)
+		wcout << "File " << i << ": " << fn[i] << endl;
+
+	Image myImage(fn[0]);
+
+	cout << myImage.width << "x" << myImage.height << endl;
 	
 	while (!glfwWindowShouldClose(window)) {
 		int width, height;

@@ -2,21 +2,18 @@
 
 #ifndef _WIN32
 
-std::string wstrToUTF8(wstring wstr) {
-	char result_buffer[MAX_FILENAME];
+string toUTF8(wstring wstr) {
+	string result;
+	result.resize(wstr.length());
+	wcstombs(&result[0], &wstr[0], result.length());
+	return result;
+}
 
-	iconv_t converter = iconv_open("UTF-8", "wchar_t");
-
-	char* result = result_buffer;
-	char* input = (char*)&wstr[0];
-	size_t output_available_size = sizeof result_buffer;
-	size_t input_available_size = wstr.size();
-	size_t result_code = iconv(converter, &input, &input_available_size, &result, &output_available_size);
-	if (result_code == -1)
-		return "";
-	iconv_close(converter);
-
-	return string(result_buffer);
+wstring toWide(string str) {
+	wstring result;
+	result.resize(str.length());
+	mbstowcs(&result[0], &str[0], result.size());
+	return result;
 }
 
 bool detectEnvironment(string env) {
@@ -39,27 +36,28 @@ int getEnvironment() {
 
 #endif
 
-wstring dialogOpenFile(wstring title, wstring location, wstring filters, bool multiSelect) {
-	wchar_t selectedFile[MAX_MULTIPLE * MAX_FILENAME];
+wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filters, bool multiSelect) {
+	wstring_list selFiles;
 
 #ifdef _WIN32 // Windows
+	
+	wstring filterString = L"";
+	wchar_t buf[MAX_MULTIPLE * MAX_FILENAME];
 	OPENFILENAMEW ofn;
-	wchar_t* p;
 
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = 0;
 
-	ofn.lpstrFile = selectedFile;
+	ofn.lpstrFile = buf;
 	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = sizeof(selectedFile);
+	ofn.nMaxFile = sizeof(buf);
 
-	// lpstrFilter wants \0 as separators.
-	p = &filters[0];
-	while ((p = wcschr(p, '|')) != NULL) {
-		*p = '\0';
-		p++;
-	}
-	ofn.lpstrFilter = &filters[0];
+	// Generate filter string
+	for (int i = 0; i < filters.size(); i += 2)
+		filterString += filters[i] + L'\0' + filters[i + 1] + L'\0';
+	filterString += L'\0';
+
+	ofn.lpstrFilter = &filterString[0];
 	ofn.nFilterIndex = 1;
 	ofn.lpstrInitialDir = &location[0];
 	ofn.lpstrTitle = &title[0];
@@ -74,30 +72,54 @@ wstring dialogOpenFile(wstring title, wstring location, wstring filters, bool mu
 	ofn.lpstrDefExt = NULL;
 	
 	if (!GetOpenFileNameW(&ofn))
-		return wstring(L""); // Cancel
+		return selFiles; // Cancel
+
 #else // Mac, Linux
+
+	static int env = getEnvironment();
+	char buf[MAX_MULTIPLE * MAX_FILENAME];
 	string command;
 	FILE *f;
+	char *p;
 
-	switch (getEnvironment()) {
+	switch (env) {
 		case ENV_KDIALOG:
 			// https://techbase.kde.org/Development/Tutorials/Shell_Scripting_with_KDE_Dialogs#Example_28._--getopenfilename_dialog_box
 			command = "kdialog --getopenfilename";
+
 			if (location != L"")
-				command += " \"" + wstrToUTF8(location) + "\"";
+				command += " \"" + toUTF8(location) + "\"";
 			else
 				command += " :";
-			if (filters != L"")
+
+			//if (filters != L"")
 				command += " \"*.png|*.jpg\"";
+
+			if (multiSelect)
+				command += " --multiple --separate-output";
 			break;
+
 		default:
-			return wstring(L""); // Cancel
+			return selFiles; // Cancel
 	}
 	cout << command << endl;
+
+	// Execute command
 	if (!(f = popen(&command[0], "r")))
-		return wstring(L"");
+		return selFiles;
+
+	// Read results (one line per file selected)
+	buf[0] = '\0';
+	p = buf;
+	while (fgets(p, MAX_FILENAME, f) != NULL) {
+		*(p + strlen(p) - 1) = '\0';
+		selFiles.push_back(toWide(p));
+		p += strlen(p);
+	}
+
+	pclose(f);
 
 #endif
 
-	return wstring(selectedFile);
+	return selFiles;
 }

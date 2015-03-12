@@ -10,21 +10,22 @@
 
 #ifdef _WIN32
 #include <Windows.h>
-#else
-#include <iconv.h>
 #endif
 
 #include <iostream>
+#include <vector>
 #include <string.h>
 #include <wchar.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
+typedef vector<wstring> wstring_list;
 
 // Shows a file dialog for opening a file, starting at the given location ("" for last visited).
-// Use filters to select specific formats only.
-wstring dialogOpenFile(wstring title, wstring location, wstring filters, bool multiSelect);
+// Returns a list of the files selected. Use filters to select specific formats only.
+wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filters, bool multiSelect);
 
 // Shows a file dialog for saving a file, starting at the given location ("" for last visited).
 // Use filters to select specific formats only.
-wstring dialogSaveFile(wstring title, wstring location, wstring filters);
+wstring_list dialogSaveFile(wstring title, wstring location, wstring_list filters);

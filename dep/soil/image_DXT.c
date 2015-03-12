@@ -8,7 +8,7 @@
 */
 
 #include "image_DXT.h"
-#include "wfile.h"
+#include "wfopen.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>

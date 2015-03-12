@@ -31,7 +31,7 @@
 #endif
 
 #include "SOIL.h"
-#include "wfile.h"
+#include "wfopen.h"
 #include "stb_image_aug.h"
 #include "image_helper.h"
 #include "image_DXT.h"

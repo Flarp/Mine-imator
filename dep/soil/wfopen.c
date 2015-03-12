@@ -1,4 +1,4 @@
-#include "wfile.h"
+#include "wfopen.h"
 
 FILE* wfopen(const wchar_t *filename, char *param) {
 #ifdef _WIN32

@@ -1,6 +1,5 @@
 #pragma once
 #include "../mineimator.h"
-using namespace std;
 
 class Image {
 public:

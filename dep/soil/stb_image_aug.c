@@ -64,7 +64,7 @@
 */
 
 #include "stb_image_aug.h"
-#include "wfile.h"
+#include "wfopen.h"
 
 #ifndef STBI_NO_HDR
 #include <math.h>  // ldexp
