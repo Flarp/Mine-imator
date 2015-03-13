@@ -16,14 +16,14 @@ Changes:
 #include <errno.h>
 #include <fcntl.h>
 
-#ifdef unix
+#ifdef _WIN32
+# include <direct.h>
+# include <io.h>
+#else
 # include <unistd.h>
 # include <utime.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-#else
-# include <direct.h>
-# include <io.h>
 #endif
 
 #include "zip.h"

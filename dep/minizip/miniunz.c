@@ -13,12 +13,12 @@
 #include <errno.h>
 #include <fcntl.h>
 
-#ifdef unix
-# include <unistd.h>
-# include <utime.h>
-#else
+#ifdef _WIN32
 # include <direct.h>
 # include <io.h>
+#else
+# include <unistd.h>
+# include <utime.h>
 #endif
 
 #include "unzip.h"

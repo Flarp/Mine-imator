@@ -39,15 +39,14 @@ int main() {
 	formats.push_back(L"PNG files (*.png)");
 	formats.push_back(L"*.png");
 	formats.push_back(L"JPG files (*.jpg)");
-	formats.push_back(L"*.jpg");
+	formats.push_back(L"*.jpg;*.jpeg");
 
 	wstring_list fn = dialogOpenFile(L"My Title", L"", formats, true);
 
 	for (int i = 0; i < fn.size(); i++)
 		wcout << "File " << i << ": " << fn[i] << endl;
 
-	Image myImage(fn[0]);
-
+	Image myImage(fn[0]); // bleh!!
 	cout << myImage.width << "x" << myImage.height << endl;
 	
 	while (!glfwWindowShouldClose(window)) {

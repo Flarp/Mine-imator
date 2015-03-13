@@ -2,20 +2,6 @@
 
 #ifndef _WIN32
 
-string toUTF8(wstring wstr) {
-	string result;
-	result.resize(wstr.length());
-	wcstombs(&result[0], &wstr[0], result.length());
-	return result;
-}
-
-wstring toWide(string str) {
-	wstring result;
-	result.resize(str.length());
-	mbstowcs(&result[0], &str[0], result.length());
-	return result;
-}
-
 bool detectEnvironment(string env) {
 	char buf[MAX_COMMAND];
 	string command = "which " + env;
@@ -32,7 +18,7 @@ int getEnvironment() {
 	if (detectEnvironment("kdialog"))
 		return ENV_KDIALOG;
 	if (detectEnvironment("osascript"))
-		return ENV_OSASCRIPT;
+		return ENV_APPLE;
 	return -1;
 }
 
@@ -101,7 +87,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			command = "kdialog --getopenfilename";
 
 			if (location != L"")
-				command += " \"" + toUTF8(location) + "\"";
+				command += " \"" + wstringToString(location) + "\"";
 			else
 				command += " :";
 
@@ -111,9 +97,33 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			if (multiSelect)
 				command += " --multiple --separate-output";
 			break;
-		case ENV_OSASCRIPT:
-			cout << "Yep!" << endl;
-			return selFiles;
+            
+		case ENV_APPLE:
+			// https://developer.apple.com/library/mac/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_cmds.html#//apple_ref/doc/uid/TP40000983-CH216-SW4
+			command = "osascript -e '";
+            command += "POSIX path of (";
+            command += "choose file";
+
+			if (filters.size()) {
+				command += " of type {";
+
+				for (int i = 1; i < filters.size(); i += 2) {
+					if (i > 1)
+						command += ", ";
+					command += "\"" + stringReplace(wstringToString(filters[i]), "*", "public") + "\"";
+				}
+
+				command += "}";
+			}
+            
+            //if (title != L"")
+            //    command += " with prompt \\\"" + wstringToString(title) + "\\\"";
+                
+            command += ")'";
+            
+            
+			break;
+            
 		default:
 			return selFiles; // Cancel
 	}
@@ -122,7 +132,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 	// Execute command
 	if (!(f = popen(&command[0], "r")))
 		return selFiles;
-
+    
 	// Read results (one line per file selected)
 	buf[0] = '\0';
 	p = buf;
@@ -131,7 +141,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 		selFiles.push_back(toWide(p));
 		p += strlen(p);
 	}
-
+    
 	pclose(f);
 
 #endif
