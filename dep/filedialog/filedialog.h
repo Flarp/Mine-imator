@@ -7,6 +7,7 @@
 #define MAX_MULTIPLE       32
 
 #define ENV_KDIALOG        0
+#define ENV_OSASCRIPT      1
 
 #ifdef _WIN32
 #include <Windows.h>

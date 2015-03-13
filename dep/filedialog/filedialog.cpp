@@ -12,7 +12,7 @@ string toUTF8(wstring wstr) {
 wstring toWide(string str) {
 	wstring result;
 	result.resize(str.length());
-	mbstowcs(&result[0], &str[0], result.size());
+	mbstowcs(&result[0], &str[0], result.length());
 	return result;
 }
 
@@ -31,6 +31,8 @@ bool detectEnvironment(string env) {
 int getEnvironment() {
 	if (detectEnvironment("kdialog"))
 		return ENV_KDIALOG;
+	if (detectEnvironment("osascript"))
+		return ENV_OSASCRIPT;
 	return -1;
 }
 
@@ -74,13 +76,24 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 	if (!GetOpenFileNameW(&ofn))
 		return selFiles; // Cancel
 
+	if (buf[wcslen(buf) + 1] == L'\0') // Single file
+		selFiles.push_back(buf);
+	else {
+		// Buffer starts with the directory, then each file (short) separated by 0. Last one ends with 00.
+		wstring dir = buf;
+		wchar_t *p = buf;
+		do {
+			p += wcslen(p) + 1;
+			selFiles.push_back(dir + L"\\" + p);
+		} while (*(p + wcslen(p) + 1) != L'\0');
+	}
+
 #else // Mac, Linux
 
 	static int env = getEnvironment();
-	char buf[MAX_MULTIPLE * MAX_FILENAME];
+	char buf[MAX_MULTIPLE * MAX_FILENAME], *p;
 	string command;
 	FILE *f;
-	char *p;
 
 	switch (env) {
 		case ENV_KDIALOG:
@@ -98,7 +111,9 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			if (multiSelect)
 				command += " --multiple --separate-output";
 			break;
-
+		case ENV_OSASCRIPT:
+			cout << "Yep!" << endl;
+			return selFiles;
 		default:
 			return selFiles; // Cancel
 	}
