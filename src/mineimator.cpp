@@ -41,7 +41,7 @@ int main() {
 	formats.push_back(L"JPG files (*.jpg)");
 	formats.push_back(L"*.jpg;*.jpeg");
 
-	wstring_list fn = dialogOpenFile(L"My Title", L"", formats, true);
+	wstring_list fn = dialogOpenFile(L"\"My Title\"", L"", formats, true);
 
 	for (int i = 0; i < fn.size(); i++)
 		wcout << "File " << i << ": " << fn[i] << endl;

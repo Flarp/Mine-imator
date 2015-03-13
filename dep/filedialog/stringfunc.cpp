@@ -1,5 +1,9 @@
 #include "stringfunc.h"
 
+string stringEscape(string str) {
+	return stringReplace(str, "\"", "\\\"");
+}
+
 string wstringToString(wstring wstr) {
 	string result;
 	result.resize(wstr.length());

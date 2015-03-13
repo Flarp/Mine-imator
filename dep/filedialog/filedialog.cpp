@@ -104,20 +104,26 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
             command += "POSIX path of (";
             command += "choose file";
 
+            // Add filters
 			if (filters.size()) {
+                int filterN = 0;
+                
 				command += " of type {";
-
+                
 				for (int i = 1; i < filters.size(); i += 2) {
-					if (i > 1)
-						command += ", ";
-					command += "\"" + stringReplace(wstringToString(filters[i]), "*", "public") + "\"";
+                    wstring_list filterList = wstringSplit(filters[i], ';');
+                    for (int j = 0; j < filterList.size(); j++) {
+                        if (filterN++ > 0)
+                            command += ", ";
+                        command += "\"" + stringReplace(wstringToString(filterList[j]), "*", "public") + "\"";
+                    }
 				}
 
 				command += "}";
 			}
             
-            //if (title != L"")
-            //    command += " with prompt \\\"" + wstringToString(title) + "\\\"";
+            if (title != L"")
+                command += " with prompt \"" + stringEscape(wstringToString(title)) + "\"";
                 
             command += ")'";
             
