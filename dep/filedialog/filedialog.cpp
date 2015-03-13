@@ -41,8 +41,8 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 	ofn.nMaxFile = sizeof(buf);
 
 	// Generate filter string
-	for (int i = 0; i < filters.size(); i += 2)
-		filterString += filters[i] + L'\0' + filters[i + 1] + L'\0';
+	for (int i = 0; i < filters.size(); i++)
+		filterString += filters[i] + L'\0';
 	filterString += L'\0';
 
 	ofn.lpstrFilter = &filterString[0];
@@ -96,6 +96,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 
 			if (multiSelect)
 				command += " --multiple --separate-output";
+            
 			break;
             
 		case ENV_APPLE:
@@ -103,7 +104,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			command = "osascript -e '";
 
 			if (multiSelect) // Store results in a list
-				command += "set selFiles to ";
+				command += "set fileList to ";
 			else
 				command += "POSIX path of (";
 
@@ -132,11 +133,17 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
             
 			if (!location.empty())
 				command += " default location \"" + wstringToString(location) + "\"";
-
-			if (multiSelect)
-
-			else
-			command += ")'";
+			
+			if (multiSelect) {
+				command += " multiple selections allowed true'";
+				command += " -e 'set fileString to POSIX path of item 1 in fileList'";
+				command += " -e 'repeat with i from 2 to the count of fileList'";
+				command += " -e 'set fileString to fileString & \"\\n\"'";
+				command += " -e 'set fileString to fileString & POSIX path of item i of fileList'";
+				command += " -e 'end repeat'";
+				command += " -e 'fileString'";
+			} else
+				command += ")'";
             
 			break;
             
