@@ -10,7 +10,7 @@ using namespace std;
 typedef vector<string> string_list;
 typedef vector<wstring> wstring_list;
 
-// Escapes quotation marks in the given string.
+// Escapes quotations in the given string.
 string stringEscape(string str);
 
 // Converts a wide string to a UTF-8 encoded string.

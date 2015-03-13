@@ -134,8 +134,6 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 				command += " default location \"" + wstringToString(location) + "\"";
 
 			if (multiSelect)
-
-			else
 			command += ")'";
             
 			break;

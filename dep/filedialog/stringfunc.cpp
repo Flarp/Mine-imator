@@ -44,7 +44,7 @@ string stringReplace(string str, string from, string to) {
 		str.replace(start_pos, from.length(), to);
 		start_pos += to.length();
 	}
-    return str;
+	return str;
 }
 
 wstring wstringReplace(wstring wstr, wstring from, wstring to) {
@@ -55,5 +55,5 @@ wstring wstringReplace(wstring wstr, wstring from, wstring to) {
 		wstr.replace(start_pos, from.length(), to);
 		start_pos += to.length();
 	}
-    return wstr;
+	return wstr;
 }
