@@ -1,13 +1,13 @@
-#include "strings.h"
+#include "stringfunc.h"
 
-string stringToWstring(wstring wstr) {
+string wstringToString(wstring wstr) {
 	string result;
 	result.resize(wstr.length());
 	wcstombs(&result[0], &wstr[0], result.length());
 	return result;
 }
 
-wstring wstringToString(string str) {
+wstring stringToWstring(string str) {
 	wstring result;
 	result.resize(str.length());
 	mbstowcs(&result[0], &str[0], result.length());

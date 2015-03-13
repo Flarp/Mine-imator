@@ -138,7 +138,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 	p = buf;
 	while (fgets(p, MAX_FILENAME, f) != NULL) {
 		*(p + strlen(p) - 1) = '\0';
-		selFiles.push_back(toWide(p));
+		selFiles.push_back(stringToWstring(p));
 		p += strlen(p);
 	}
     

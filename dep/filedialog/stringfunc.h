@@ -10,10 +10,10 @@ using namespace std;
 typedef vector<string> string_list;
 typedef vector<wstring> wstring_list;
 
-// Converts an UTF-8 encoded string into a wide string.
-string stringToWstring(wstring wstr);
 // Converts a wide string to a UTF-8 encoded string.
-wstring wstringToString(string str);
+string wstringToString(wstring str);
+// Converts an UTF-8 encoded string into a wide string.
+wstring stringToWstring(string wstr);
 
 // Creates a list of all the substrings in str separated by the given character.
 string_list stringSplit(string str, char split);

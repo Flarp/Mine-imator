@@ -15,7 +15,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "strings.h"
+#include "stringfunc.h"
 
 // Shows a file dialog for opening a file, starting at the given location ("" for last visited).
 // Returns a list of the files selected. Use filters to select specific formats only.
