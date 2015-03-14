@@ -14,11 +14,11 @@ add_subdirectory("dep/glfw")
 include_directories("dep/glfw/include")
 set(LIBS glfw ${GLFW_LIBRARIES})
 
-# Add filedialog
-include_directories("dep/filedialog")
-file(GLOB FILEDIALOG_SRCS "${CMAKE_SOURCE_DIR}/dep/filedialog/*.cpp")
-add_library(filedialog STATIC ${FILEDIALOG_SRCS})
-set(LIBS ${LIBS} filedialog)
+# Add dlib
+include_directories("dep/dlib")
+file(GLOB DLIB_SRCS "${CMAKE_SOURCE_DIR}/dep/dlib/*.cpp")
+add_library(dlib STATIC ${DLIB_SRCS})
+set(LIBS ${LIBS} dlib)
 
 # Add SOIL
 include_directories("dep/soil")

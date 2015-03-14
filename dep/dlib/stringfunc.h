@@ -5,13 +5,14 @@
 #include <vector>
 #include <string.h>
 #include <wchar.h>
+#include <stdlib.h>
 
 using namespace std;
 typedef vector<string> string_list;
 typedef vector<wstring> wstring_list;
 
 // Escapes quotations in the given string.
-string stringEscape(string str);
+string stringEscapeQuotes(string str);
 
 // Converts a wide string to a UTF-8 encoded string.
 string wstringToString(wstring str);

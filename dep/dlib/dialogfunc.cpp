@@ -46,7 +46,6 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 	filterString += L'\0';
 
 	ofn.lpstrFilter = &filterString[0];
-	ofn.nFilterIndex = 1;
 	ofn.lpstrInitialDir = &location[0];
 	ofn.lpstrTitle = &title[0];
 
@@ -87,12 +86,27 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			command = "kdialog --getopenfilename";
 
 			if (!location.empty())
-				command += " \"" + wstringToString(location) + "\"";
+				command += wstringToString(location);
 			else
 				command += " :";
 
-			//if (filters != L"")
-				command += " \"*.png|*.jpg\"";
+			// Add filters
+			if (filters.size()) {
+				command += " \"";
+
+				for (int i = 1; i < filters.size(); i += 2)
+					command += stringReplace(wstringToString(filters[i]), ";", " ") + " ";
+
+				command += "|";
+				for (int i = 0; i < filters.size(); i += 2) {
+					if (i > 0)
+						command += ", ";
+					command += stringEscapeQuotes(wstringToString(filters[i]));
+				}
+
+				command += "\"";
+
+			}
 
 			if (multiSelect)
 				command += " --multiple --separate-output";
@@ -129,7 +143,7 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 			}
             
 			if (!title.empty())
-				command += " with prompt \"" + stringEscape(wstringToString(title)) + "\"";
+				command += " with prompt \"" + stringEscapeQuotes(wstringToString(title)) + "\"";
             
 			if (!location.empty())
 				command += " default location \"" + wstringToString(location) + "\"";
@@ -170,4 +184,49 @@ wstring_list dialogOpenFile(wstring title, wstring location, wstring_list filter
 #endif
 
 	return selFiles;
+}
+
+wstring dialogSaveFile(wstring title, wstring location, wstring_list filters) {
+	wstring selFile;
+
+#ifdef _WIN32
+
+	wstring filterString = L"";
+	wchar_t buf[MAX_FILENAME];
+	OPENFILENAMEW ofn;
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = 0;
+
+	ofn.lpstrFile = buf;
+	ofn.lpstrFile[0] = '\0';
+	ofn.nMaxFile = sizeof(buf);
+
+	// Generate filter string
+	for (int i = 0; i < filters.size(); i++)
+		filterString += filters[i] + L'\0';
+	filterString += L'\0';
+
+	ofn.lpstrFilter = &filterString[0];
+	ofn.lpstrInitialDir = &location[0];
+	ofn.lpstrTitle = &title[0];
+
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+
+	ofn.lpstrFileTitle = NULL;
+	ofn.nMaxFileTitle = _MAX_FNAME + _MAX_EXT;
+	ofn.lpstrCustomFilter = NULL;
+	ofn.lpstrDefExt = NULL;
+
+	if (!GetSaveFileNameW(&ofn))
+		return selFile; // Cancel
+
+	selFile = buf;
+	cout << "filterIndex" << ofn.nFilterIndex << endl;
+
+#else
+
+#endif
+
+	return selFile;
 }

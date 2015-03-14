@@ -1,6 +1,6 @@
 #include "stringfunc.h"
 
-string stringEscape(string str) {
+string stringEscapeQuotes(string str) {
 	return stringReplace(str, "\"", "\\\"");
 }
 
